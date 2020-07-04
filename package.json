@@ -1,0 +1,8 @@
+{
+  "name": "etoken-client-sdk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/soramitsukhmer/etoken-client-sdk.git",
+  "author": "Socheat Sok <alex@socheat.net>",
+  "license": "MIT"
+}
