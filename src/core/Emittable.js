@@ -1,11 +1,20 @@
-import Bus from '@condenast/quick-bus'
-
-/**
- *
- */
-export default class Emitable {
+export default class Emittable {
+  /**
+   * Create a new instance of Emitable
+   */
   constructor() {
-    this._listener = new Bus()
+    /**
+     * @type {Bus}
+     */
+    this._listener;
+  }
+
+  /**
+   * Set Listener
+   * @param {Bus} listener
+   */
+  setListener(listener) {
+    this._listener = listener
   }
 
   /**
@@ -40,3 +49,11 @@ export default class Emitable {
     return this._listener.subscribe(topic, callback)
   }
 }
+
+/**
+ * @typedef Bus
+ * @property {Function} emit
+ * @property {Function} publish
+ * @property {Function} on
+ * @property {Function} subscribe
+ */
