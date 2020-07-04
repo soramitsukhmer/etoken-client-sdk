@@ -1,3 +1,3 @@
 export default class TokenEvent {
-  constructor() {}
+  static READY_EVENT = 'ready'
 }
