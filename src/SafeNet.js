@@ -44,6 +44,8 @@ export default class SafeNet extends Emittable {
         ws.send(data)
       } catch (error) {
         reject(error)
+      } finally {
+        this._resetRetry()
       }
     })
   }
