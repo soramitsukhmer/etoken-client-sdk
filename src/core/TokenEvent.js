@@ -1,3 +1,5 @@
-export default class TokenEvent {
-  static READY_EVENT = 'ready'
+const TokenEvent = {
+  READY_EVENT: 'ready'
 }
+
+export default TokenEvent
