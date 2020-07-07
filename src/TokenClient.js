@@ -1,4 +1,5 @@
 import retry from 'async-retry'
+import sha256 from 'crypto-js/sha256'
 
 import { createSocket } from './utils'
 
@@ -194,6 +195,14 @@ export default class TokenClient extends Emittable {
     if (this[PRIVATE_FIELDS].is.ready) return
     setTimeout(() => this.emit(TokenEvent.READY_EVENT, this));
     this[PRIVATE_FIELDS].is.ready = true
+  }
+
+  /**
+   * Create a SHA256 Hash
+   * @param {any} data
+   */
+  static hash(data) {
+    return sha256(data).toString()
   }
 }
 
