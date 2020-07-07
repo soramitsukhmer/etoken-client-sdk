@@ -1,3 +1,5 @@
+import Bus from '@condenast/quick-bus'
+
 export default class Emittable {
   /**
    * Create a new instance of Emitable
@@ -6,7 +8,7 @@ export default class Emittable {
     /**
      * @type {Bus}
      */
-    this._listener;
+    this._listener = new Bus();
   }
 
   /**

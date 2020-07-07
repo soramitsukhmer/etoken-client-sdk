@@ -1,11 +1,13 @@
-import Bus from '@condenast/quick-bus'
 import Emittable from './core/Emittable'
 import TokenEvent from './core/TokenEvent'
 
 const PRIVATE_FIELDS = Symbol('private')
 
 export default class TokenClient extends Emittable {
-  constructor() {
+  constructor(
+    endpoint = 'ws://localhost:44331/token',
+    options = { retry: 5 }
+  ) {
     super()
 
     this[PRIVATE_FIELDS] = {
@@ -21,9 +23,6 @@ export default class TokenClient extends Emittable {
    * Bootstrap the token client
    */
   _bootstrap() {
-    const listener = new Bus()
-
-    this.setListener(listener)
     this.emitReadyEvent()
   }
 
