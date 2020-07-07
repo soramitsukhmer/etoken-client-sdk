@@ -55,6 +55,11 @@ export default class SafeNet extends Emittable {
   terminate(error = null) {
     const options = this[PRIVATE_FIELDS]
 
+    if (options.socket) {
+      options.socket.close()
+      return
+    }
+
     if (!error) error = new Error('Request rejected from user.')
 
     if (typeof options.terminator.resolver === 'function') {
