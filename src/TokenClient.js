@@ -36,11 +36,6 @@ export default class TokenClient extends Emittable {
 
         ws.addEventListener('message', e => resolve(e.data))
 
-        ws.addEventListener('close', e => {
-          this._setSocket(null)
-          this._terminated()
-        })
-
         ws.send(data)
       } catch (error) {
         reject(error)
@@ -90,7 +85,13 @@ export default class TokenClient extends Emittable {
         this._setTerminatorResolver(bail)
 
         const ws = await createSocket(options.endpoint)
+
         this._setSocket(ws)
+
+        ws.addEventListener('close', () => {
+          this._setSocket(null)
+          this._terminated()
+        })
 
         return ws
       } catch (error) {
