@@ -1,7 +1,7 @@
 import retry from 'async-retry'
 import sha256 from 'crypto-js/sha256'
 
-import { createSocket } from './utils'
+import { createClientOption, createSocket } from './utils'
 
 import Emittable from './core/Emittable'
 import TokenEvent from './core/TokenEvent'
@@ -14,26 +14,7 @@ export default class TokenClient extends Emittable {
     options = { retry: 5 }
   ) {
     super()
-
-    /**
-     * @type {TokenClientOptions}
-     */
-    this[PRIVATE_FIELDS] = {
-      endpoint: endpoint,
-      socket: null,
-      retry: {
-        count: 0,
-        limit: options.retry
-      },
-      terminator: {
-        resolver: null,
-        terminated: false
-      },
-      is: {
-        ready: false
-      }
-    }
-
+    this[PRIVATE_FIELDS] = createClientOption(endpoint, options)
     this._bootstrap()
   }
 
@@ -205,17 +186,3 @@ export default class TokenClient extends Emittable {
     return sha256(data).toString()
   }
 }
-
-/**
- * @typedef TokenClientOptions
- * @property {string} endpoint
- * @property {WebSocket?} socket
- * @property {Object} retry
- * @property {Number} retry.count
- * @property {Number} retry.limit
- * @property {Object} terminator
- * @property {Function?} terminator.resolver
- * @property {Boolean} terminator.terminated
- * @property {Object} is
- * @property {Boolean} is.ready
- */
