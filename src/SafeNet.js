@@ -8,7 +8,7 @@ import TokenEvent from './core/TokenEvent'
 
 const PRIVATE_FIELDS = Symbol('private')
 
-export default class TokenClient extends Emittable {
+export default class SafeNet extends Emittable {
   constructor(
     endpoint = 'ws://localhost:44331/token',
     options = { retry: 5 }

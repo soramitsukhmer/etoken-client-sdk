@@ -1,1 +1,1 @@
-export { default as TokenClient } from './src/TokenClient'
+export { default as SafeNet } from './src/SafeNet'
