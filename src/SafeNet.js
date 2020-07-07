@@ -39,7 +39,10 @@ export default class SafeNet extends Emittable {
          */
         const ws = await this._connect()
 
-        ws.addEventListener('message', e => resolve(e.data))
+        ws.addEventListener('message', ({ data }) => {
+          resolve(data)
+          this._emitSignEvent(data)
+        })
 
         ws.send(data)
       } catch (error) {
@@ -56,6 +59,8 @@ export default class SafeNet extends Emittable {
    */
   terminate(error = null) {
     const options = this[PRIVATE_FIELDS]
+
+    this._emitTerminateEvent()
 
     if (options.socket) {
       options.socket.close()
@@ -78,7 +83,7 @@ export default class SafeNet extends Emittable {
    * @private
    */
   _bootstrap() {
-    this._emitReadyEvent()
+    this._emitReadyEvent(this)
   }
 
   /**
@@ -99,6 +104,7 @@ export default class SafeNet extends Emittable {
         const ws = await createSocket(options.endpoint)
 
         this._setSocket(ws)
+        this._emitConnectEvent(ws)
 
         ws.addEventListener('close', () => {
           this._setSocket(null)
@@ -114,7 +120,12 @@ export default class SafeNet extends Emittable {
 
         throw error
       }
-    }, { retry: options.retry.limit })
+    }, {
+      retry: options.retry.limit,
+      onRetry: () => {
+        this._emitRetryEvent(options.terminator.resolver)
+      }
+    })
 
     return retryResolver
   }
@@ -184,11 +195,47 @@ export default class SafeNet extends Emittable {
   /**
    * Emit Ready Event
    * @private
+   * @param {any} event
    */
-  _emitReadyEvent() {
+  _emitReadyEvent(event) {
     if (this[PRIVATE_FIELDS].is.ready) return
-    setTimeout(() => this.emit(TokenEvent.READY_EVENT, this));
+    setTimeout(() => this.emit(TokenEvent.READY_EVENT, event));
     this[PRIVATE_FIELDS].is.ready = true
+  }
+
+  /**
+   * Emit Sign Event
+   * @private
+   * @param {any} event
+   */
+  _emitSignEvent(event) {
+    this.emit(TokenEvent.SIGN_EVENT, event)
+  }
+
+  /**
+   * Emit Connect Event
+   * @private
+   * @param {any} event
+   */
+  _emitConnectEvent(event) {
+    this.emit(TokenEvent.CONNECT_EVENT, event)
+  }
+
+  /**
+   * Emit Retry Event
+   * @private
+   * @param {any} event
+   */
+  _emitRetryEvent(event) {
+    this.emit(TokenEvent.RETRY_EVENT, event)
+  }
+
+  /**
+   * Emit Terminate Event
+   * @private
+   */
+  _emitTerminateEvent() {
+    this.emit(TokenEvent.TERMINATE_EVENT, null)
   }
 
   /**
