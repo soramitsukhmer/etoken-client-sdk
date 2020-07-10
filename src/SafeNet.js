@@ -24,6 +24,15 @@ export default class SafeNet extends Emittable {
   }
 
   /**
+   * Request eToken Prompt
+   * @param {string} scheme URL Scheme
+   * @param {string} target Open Target
+   */
+  request(scheme = 'token', target = '_self') {
+    open(`${scheme}://`, target)
+  }
+
+  /**
    * Sign data using eToken
    * @param {any} data
    */
@@ -31,8 +40,6 @@ export default class SafeNet extends Emittable {
     return new Promise(async (resolve, reject) => {
       try {
         this._validateData(data)
-
-        open('token://', '_self')
 
         /**
          * @type {WebSocket}
