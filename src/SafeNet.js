@@ -47,8 +47,10 @@ export default class SafeNet extends Emittable {
         const ws = await this._connect()
 
         ws.addEventListener('message', ({ data }) => {
-          resolve(data)
-          this._emitSignEvent(data)
+          const payload = JSON.parse(data)
+
+          resolve(payload)
+          this._emitSignEvent(payload)
         })
 
         ws.send(data)
