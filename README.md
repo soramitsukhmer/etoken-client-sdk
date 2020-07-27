@@ -13,7 +13,7 @@ const eToken = new SafeNet()
 
 const challenge = await eToken.sign('Data to be sign...')
 
-console.log(JSON.parse(challenge))
+console.log(challenge)
 ```
 
 **Result**:
