@@ -44,7 +44,7 @@ export class SafeNet extends Emittable {
    * @param scheme URL Scheme
    * @param target Open Target
    */
-  request(scheme: string = 'token', target: string = '_self'): void;
+  request(scheme?: string, target?: string): void;
 
   /**
    * Sign data using eToken
