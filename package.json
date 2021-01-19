@@ -1,10 +1,10 @@
 {
-  "name": "etoken-client-sdk",
+  "name": "@soramitsukhmer/etoken-client-sdk",
   "version": "1.1.2",
   "main": "lib/index.js",
   "typings": "types/index.d.ts",
   "repository": "https://github.com/soramitsukhmer/etoken-client-sdk.git",
-  "author": "Socheat Sok <alex@socheat.net>",
+  "author": "Socheat Sok <socheat@soramitsukhmer.com>",
   "license": "MIT",
   "scripts": {
     "prebuild": "rm -rf lib/",
@@ -19,5 +19,8 @@
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   }
 }
